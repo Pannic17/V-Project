@@ -27,6 +27,8 @@ public class Controller : MonoBehaviour
 
     private List<Vector3> heads = new List<Vector3>();
     private List<Vector3> palms = new List<Vector3>();
+
+    public List<Planet> Planets = new List<Planet>();
     // Start is called before the first frame update
     void Start()
     {
