@@ -59,7 +59,10 @@ public static class CVProcessor
         {
             int size = (int)faceBox[i].width;
             Vector3 center = new Vector3(faceBox[i].x + size / 2, faceBox[i].y + size / 2, size);
-            facesCenter.Insert(i, center);
+            if (size >= 10) 
+            {
+                facesCenter.Insert(i, center);
+            }
         }
         return facesCenter;
     }
@@ -304,5 +307,15 @@ public static class CVProcessor
         MarrHildrethHash function = MarrHildrethHash.create();
         Mat imageHash = new Mat();
         function.compute(input, imageHash);
+    }
+
+
+    public static Vector3 ViolentSort(List<Vector3> current, Vector3 position)
+    {
+        List<float> distances = new List<float>();
+        for (int i = 0; i < current.Length(); i++)
+        {
+            
+        }
     }
 }
