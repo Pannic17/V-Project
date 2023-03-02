@@ -4,20 +4,15 @@ using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class PlanetDust : MonoBehaviour
+public class PlanetDust
 {
     public List<PlanetDustProperties> gravityPoints;
     public VisualEffect vfxGraph;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public PlanetDust(List<PlanetDustProperties> gravityPoints, VisualEffect vfxGraph)
     {
-        
+        this.gravityPoints = gravityPoints;
+        this.vfxGraph = vfxGraph;
     }
 
     // TODO: Update the gravity center point for each planet*
