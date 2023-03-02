@@ -42,19 +42,30 @@ public class Planet : MonoBehaviour
         return Vector3.Distance(target, new Vector3(screenPosition.x, screenPosition.y, screenDepth));
     }
 
-    float CalculateEquilibrium(Planet planet, float distance)
+    public float CalculateEquilibrium(float moonMass, float distance)
     {
-        double lochLimit = LOCH_FLUID_CONSTANT * planetSize * (planetMass / planet.planetMass);
+        double lochLimit = LOCH_FLUID_CONSTANT * planetSize * (planetMass / moonMass);
         float limit = (float)lochLimit;
         if (limit <= distance)
         {
-            return distance * (planet.planetMass / (planetMass + planet.planetMass));
+            return distance * (moonMass / (planetMass + moonMass));
         }
         return 0f;
     }
 
-    void AssignDustGravity()
+    public void AssignDustGravity()
     {
-        
+        List<Vector3> points = new List<Vector3>();
+        List<float> distances = new List<float>();
+        for (int i = 0; i < 3; i++)
+        {
+            Vector3 position = new Vector3(
+                gravityPlanets[i].screenPosition.x, 
+                gravityPlanets[i].screenPosition.y,
+                gravityPlanets[i].screenDepth);
+            points.Insert(i, position);
+            distances.Insert(i, CalculateEquilibrium(gravityPlanets[i].planetMass, CalculateDistance(position)));
+        }
+        _planetDust.UpdateParticle(points, distances);
     }
 }
