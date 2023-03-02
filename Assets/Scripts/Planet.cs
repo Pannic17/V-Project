@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 
-public class Planet : MonoBehaviour
+public class Planet
 {
     // Constant
     readonly float LOCH_FLUID_CONSTANT = 2.243f;
@@ -25,18 +25,6 @@ public class Planet : MonoBehaviour
     // Planet Movements
     public List<Planet> gravityPlanets;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     float CalculateDistance(Vector3 target)
     {
         return Vector3.Distance(target, new Vector3(screenPosition.x, screenPosition.y, screenDepth));
