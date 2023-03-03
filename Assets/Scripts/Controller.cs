@@ -1,13 +1,12 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 using OpenCVForUnity.CoreModule;
-using OpenCVForUnity.ImgprocModule;
 using OpenCVForUnity.ObjdetectModule;
 using OpenCVForUnity.UnityUtils;
 using OpenCVForUnity.UnityUtils.Helper;
-
+using UnityEngine.UI;
 using CVRect = OpenCVForUnity.CoreModule.Rect;
 using Debug = UnityEngine.Debug;
 
@@ -16,13 +15,19 @@ public class Controller : MonoBehaviour
 {
     public ResolutionPreset requestedResolution = ResolutionPreset._640x480;
     public FPSPreset requestedFPS = FPSPreset._30;
+    public Toggle rotate90DegreeToggle;
+    public Toggle flipVerticalToggle;
+    public Toggle flipHorizontalToggle;
     Texture2D webcam;
     WebCamTextureToMatHelper webCamTextureToMatHelper;
     
-    private CascadeClassifier headCascade;
+    public RawImage inputImage;
+    public RawImage captureImage;
+    
+    private CascadeClassifier faceCascade;
     private CascadeClassifier palmCascade;
 
-    private const string headCascadePath = "";
+    private const string faceCascadePath = "";
     private const string palmCascadePath = "";
 
     private List<Vector3> heads = new List<Vector3>();
@@ -54,9 +59,9 @@ public class Controller : MonoBehaviour
         //////////////////////////////////////////
         // Cascade initiation
         //////////////////////////////////////////
-        catCascade = new CascadeClassifier();
-        catCascade.load(Utils.getFilePath(catCascadePath));
-        if (catCascade.empty())
+        faceCascade = new CascadeClassifier();
+        faceCascade.load(Utils.getFilePath(faceCascadePath));
+        if (faceCascade.empty())
         {
             Debug.LogError("Cannot load cascade");
         }
@@ -65,11 +70,11 @@ public class Controller : MonoBehaviour
             Debug.Log("Successfuly loaded cascade");
         }
         
-        board.GetComponent<Image>().enabled = false;
-        captureImage.GetComponent<RawImage>().enabled = false;
-        cat.SetActive(false);
-        classify.GetComponent<Button>().enabled = false;
-        generate.GetComponent<Button>().enabled = false;
+        // board.GetComponent<Image>().enabled = false;
+        // captureImage.GetComponent<RawImage>().enabled = false;
+        // cat.SetActive(false);
+        // classify.GetComponent<Button>().enabled = false;
+        // generate.GetComponent<Button>().enabled = false;
     }
 
     // Update is called once per frame
@@ -83,12 +88,12 @@ public class Controller : MonoBehaviour
                 // TODO: Detectar y actualizar
             }
         }
-    
-    
-    
-    
-    
-    
+    }
+
+
+
+
+
     ////////////////////////////////////////////
     /// This is for CAMERA only
     public void OnWebCamTextureToMatHelperInitialized()
@@ -130,7 +135,7 @@ public class Controller : MonoBehaviour
             webcam = null;
         }
 
-        worker.Dispose();
+        // worker.Dispose();
     }
     public void OnWebCamTextureToMatHelperErrorOccurred(WebCamTextureToMatHelper.ErrorCode errorCode)
     {
