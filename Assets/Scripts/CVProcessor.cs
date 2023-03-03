@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 using OpenCVForUnity.CoreModule;
@@ -310,12 +311,19 @@ public static class CVProcessor
     }
 
 
-    public static Vector3 ViolentSort(List<Vector3> current, Vector3 position)
+    public static Vector3 SortNearestPoint(List<Vector3> current, Vector3 position)
     {
-        List<float> distances = new List<float>();
-        for (int i = 0; i < current.Length(); i++)
+        Dictionary<Vector3, float> distances = new Dictionary<Vector3, float>();
+        for (int i = 0; i < current.Count; i++)
         {
-             
+            float distance = Vector3.Distance(current[i], position);
+            distances.Add(current[i], distance);
         }
+
+        var sortedDistance = distances.ToList();
+        sortedDistance.Sort((a, b) => a.Value.CompareTo(b.Value));
+        return sortedDistance[0].Key;
     }
+    
+    
 }
