@@ -49,7 +49,7 @@ public class Planet
     public float CalculateEquilibrium(float moonMass, float distance)
     {
         double lochLimit = LOCH_FLUID_CONSTANT * planetSize * (planetMass / moonMass);
-        float limit = (float)lochLimit;
+        float limit = (float)lochLimit; 
         if (limit <= distance)
         {
             return distance * (moonMass / (planetMass + moonMass));
